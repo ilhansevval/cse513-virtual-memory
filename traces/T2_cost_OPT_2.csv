@@ -1,0 +1,10 @@
+step,page,op,result,victim,dirty_writeback,frames,dirty_bits,ref_bits,next_hand
+1,1,R,FAULT,-,NO,"1 -","0 -",-,-
+2,1,W,HIT,-,NO,"1 -","1 -",-,-
+3,2,R,FAULT,-,NO,"1 2","1 0",-,-
+4,1,R,HIT,-,NO,"1 2","1 0",-,-
+5,3,R,FAULT,1,YES,"3 2","0 0",-,-
+# policy=OPT frames=2 references=5 hits=2 faults=3 initial_fills=2 evictions=1 dirty_writebacks=1 final_resident_dirty=0
+# final_resident_dirty_pages=[] (not flushed, not counted as writebacks)
+# total_time_us=40005 (= 5*1 + 3*10000 + 1*10000) avg_time_us=8001.000
+# verification=PASS (hits+faults=N, writebacks<=evictions<=faults, no duplicate page, residency<=capacity checked after every step)

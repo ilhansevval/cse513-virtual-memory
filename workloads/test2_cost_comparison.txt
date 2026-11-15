@@ -1,0 +1,4 @@
+# Student test 2 - cost comparison. 2 frames. LRU and OPT both take 3 faults,
+# but OPT evicts dirty page 1 (tie: both pages never used again -> lowest frame index)
+# while LRU evicts clean page 2. FIFO and CLOCK behave like OPT here.
+1:R 1:W 2:R 1:R 3:R

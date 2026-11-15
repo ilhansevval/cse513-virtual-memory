@@ -1,0 +1,2 @@
+# Workload B (Belady sequence, reads only), run with FIFO and 3 / 4 frames
+1:R 2:R 3:R 4:R 1:R 2:R 5:R 1:R 2:R 3:R 4:R 5:R

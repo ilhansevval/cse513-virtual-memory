@@ -1,0 +1,27 @@
+Policy=CLOCK frames=3 references=20
+step ref    hit?  victim writeback frames after access: page(Dirty,Ref)  | next hand
+1    7:R    FAULT none   no        7(D0,R1)     -           -           | F1
+2    0:W    FAULT none   no        7(D0,R1)     0(D1,R1)    -           | F2
+3    1:R    FAULT none   no        7(D0,R1)     0(D1,R1)    1(D0,R1)    | F0
+4    2:W    FAULT 7      no        2(D1,R1)     0(D1,R0)    1(D0,R0)    | F1
+5    0:R    HIT   none   no        2(D1,R1)     0(D1,R1)    1(D0,R0)    | F1
+6    3:R    FAULT 1      no        2(D1,R1)     0(D1,R0)    3(D0,R1)    | F0
+7    0:W    HIT   none   no        2(D1,R1)     0(D1,R1)    3(D0,R1)    | F0
+8    4:R    FAULT 2      YES       4(D0,R1)     0(D1,R0)    3(D0,R0)    | F1
+9    2:R    FAULT 0      YES       4(D0,R1)     2(D0,R1)    3(D0,R0)    | F2
+10   3:W    HIT   none   no        4(D0,R1)     2(D0,R1)    3(D1,R1)    | F2
+11   0:R    FAULT 3      YES       4(D0,R0)     2(D0,R0)    0(D0,R1)    | F0
+12   3:R    FAULT 4      no        3(D0,R1)     2(D0,R0)    0(D0,R1)    | F1
+13   2:W    HIT   none   no        3(D0,R1)     2(D1,R1)    0(D0,R1)    | F1
+14   1:R    FAULT 2      YES       3(D0,R0)     1(D0,R1)    0(D0,R0)    | F2
+15   2:R    FAULT 0      no        3(D0,R0)     1(D0,R1)    2(D0,R1)    | F0
+16   0:R    FAULT 3      no        0(D0,R1)     1(D0,R1)    2(D0,R1)    | F1
+17   1:W    HIT   none   no        0(D0,R1)     1(D1,R1)    2(D0,R1)    | F1
+18   7:R    FAULT 1      YES       0(D0,R0)     7(D0,R1)    2(D0,R0)    | F2
+19   0:R    HIT   none   no        0(D0,R1)     7(D0,R1)    2(D0,R0)    | F2
+20   1:R    FAULT 2      no        0(D0,R1)     7(D0,R1)    1(D0,R1)    | F0
+
+policy=CLOCK frames=3 references=20 hits=6 faults=14 initial_fills=3 evictions=11 dirty_writebacks=5 final_resident_dirty=0
+final_resident_dirty_pages=[] (not flushed, not counted as writebacks)
+total_time_us=190020 (= 20*1 + 14*10000 + 5*10000) avg_time_us=9501.000
+verification=PASS (hits+faults=N, writebacks<=evictions<=faults, no duplicate page, residency<=capacity checked after every step)

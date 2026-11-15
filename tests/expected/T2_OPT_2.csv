@@ -1,0 +1,6 @@
+step,page,op,result,victim,dirty_writeback,frames,dirty_bits,ref_bits,next_hand
+1,1,R,FAULT,-,NO,"1 -","0 -",-,-
+2,1,W,HIT,-,NO,"1 -","1 -",-,-
+3,2,R,FAULT,-,NO,"1 2","1 0",-,-
+4,1,R,HIT,-,NO,"1 2","1 0",-,-
+5,3,R,FAULT,1,YES,"3 2","0 0",-,-

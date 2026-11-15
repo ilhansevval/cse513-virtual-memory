@@ -1,0 +1,5 @@
+# Student test 1 - dirty-state test. Policy FIFO, 2 frames.
+# step2 = write hit (dirty 0->1), step3 = later read of same page (dirty kept),
+# step5 = dirty eviction of page 1 (writeback), step6 = reload of page 1 (starts clean),
+# step7 = write hit after reload (dirty again, resident at end, not flushed).
+1:R 1:W 1:R 2:R 3:R 1:R 1:W

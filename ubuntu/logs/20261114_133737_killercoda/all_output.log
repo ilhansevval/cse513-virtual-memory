@@ -1,0 +1,134 @@
+=== CSE513 A2 Ubuntu observations, run started 2026-11-14T13:37:37+00:00 ===
+=== 1. Environment ===
+
+$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+
+$ uname -r
+6.8.0-147-generic
+
+$ uname -a
+Linux ubuntu 6.8.0-147-generic #147-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep 24 11:33:16 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+$ getconf PAGESIZE
+4096
+
+$ cc --version
+cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+$ cat /proc/version
+Linux version 6.8.0-147-generic (buildd@lcy02-amd64-081) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #147-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep 24 11:33:16 UTC 2026
+
+$ environment type detection
+
+$ systemd-detect-virt
+kvm
+(read-only settings that can influence fault counts:)
+
+$ cat /sys/kernel/mm/transparent_hugepage/enabled
+always [madvise] never
+
+$ cat /sys/kernel/mm/transparent_hugepage/use_zero_page
+1
+
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       410Mi       1.2Gi       1.1Mi       463Mi       1.5Gi
+Swap:          1.0Gi          0B       1.0Gi
+
+$ nproc
+1
+
+$ sha256sum of the supplied programs (must match the course files, unchanged)
+
+$ sha256sum /root/cse513/supplied/first-touch.c /root/cse513/supplied/cow-observe.c
+8654b3dc4b8b46ec86aab3e12caec83e27b4e97e0245bf990a312ee6139e84d8  /root/cse513/supplied/first-touch.c
+6b644254daedcd09440f556feb145c688ccbccaf03f6b8ef985905044eb3fee7  /root/cse513/supplied/cow-observe.c
+
+=== 2. Compile (exact commands from the assignment) ===
+
+$ cc -std=c11 -O2 -Wall -Wextra first-touch.c -o /root/cse513/ubuntu/bin/first-touch
+first-touch.c: In function 'main':
+first-touch.c:19:5: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+   19 |     for(size_t i=0;i<bytes;i+=(size_t)page)checksum+=p[i];struct rusage c=snapshot();
+      |     ^~~
+first-touch.c:19:59: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+   19 |     for(size_t i=0;i<bytes;i+=(size_t)page)checksum+=p[i];struct rusage c=snapshot();
+      |                                                           ^~~~~~
+first-touch.c:20:5: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+   20 |     for(size_t i=0;i<bytes;i+=(size_t)page)p[i]=1;struct rusage d=snapshot();
+      |     ^~~
+first-touch.c:20:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+   20 |     for(size_t i=0;i<bytes;i+=(size_t)page)p[i]=1;struct rusage d=snapshot();
+      |                                                   ^~~~~~
+first-touch.c:21:5: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+   21 |     for(size_t i=0;i<bytes;i+=(size_t)page)p[i]+=1;struct rusage e=snapshot();
+      |     ^~~
+first-touch.c:21:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+   21 |     for(size_t i=0;i<bytes;i+=(size_t)page)p[i]+=1;struct rusage e=snapshot();
+      |                                                    ^~~~~~
+
+$ cc -std=c11 -O2 -Wall -Wextra cow-observe.c -o /root/cse513/ubuntu/bin/cow-observe
+compile status: first-touch=0 cow-observe=0
+
+=== 3. first-touch: three fresh processes ===
+
+--- first-touch run 1 ---
+pid=4064 page_size=4096 mapping_bytes=16777216
+mapping only       minor_delta=0 major_delta=0
+first read         minor_delta=4096 major_delta=0
+first write        minor_delta=4096 major_delta=0
+repeat write       minor_delta=0 major_delta=0
+checksum=0 first_byte=2
+exit status: 0
+
+--- first-touch run 2 ---
+pid=4073 page_size=4096 mapping_bytes=16777216
+mapping only       minor_delta=0 major_delta=0
+first read         minor_delta=4096 major_delta=0
+first write        minor_delta=4096 major_delta=0
+repeat write       minor_delta=0 major_delta=0
+checksum=0 first_byte=2
+exit status: 0
+
+--- first-touch run 3 ---
+pid=4082 page_size=4096 mapping_bytes=16777216
+mapping only       minor_delta=0 major_delta=0
+first read         minor_delta=4096 major_delta=0
+first write        minor_delta=4096 major_delta=0
+repeat write       minor_delta=0 major_delta=0
+checksum=0 first_byte=2
+exit status: 0
+
+=== 4. cow-observe: three fresh processes ===
+
+--- cow-observe run 1 ---
+child_private_value=9 parent_private_value=7
+exit status: 0
+
+--- cow-observe run 2 ---
+child_private_value=9 parent_private_value=7
+exit status: 0
+
+--- cow-observe run 3 ---
+child_private_value=9 parent_private_value=7
+exit status: 0
+
+=== finished 2026-11-14T13:37:37+00:00. Logs saved in ubuntu/logs/20261114_133737/ ===
+Send all_output.log (or the whole fol

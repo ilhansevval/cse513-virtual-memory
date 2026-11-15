@@ -1,0 +1,27 @@
+Policy=FIFO frames=3 references=20
+step ref    hit?  victim writeback frames after access: page(Dirty)
+1    7:R    FAULT none   no        7(D0)    -       -      
+2    0:W    FAULT none   no        7(D0)    0(D1)   -      
+3    1:R    FAULT none   no        7(D0)    0(D1)   1(D0)  
+4    2:W    FAULT 7      no        2(D1)    0(D1)   1(D0)  
+5    0:R    HIT   none   no        2(D1)    0(D1)   1(D0)  
+6    3:R    FAULT 0      YES       2(D1)    3(D0)   1(D0)  
+7    0:W    FAULT 1      no        2(D1)    3(D0)   0(D1)  
+8    4:R    FAULT 2      YES       4(D0)    3(D0)   0(D1)  
+9    2:R    FAULT 3      no        4(D0)    2(D0)   0(D1)  
+10   3:W    FAULT 0      YES       4(D0)    2(D0)   3(D1)  
+11   0:R    FAULT 4      no        0(D0)    2(D0)   3(D1)  
+12   3:R    HIT   none   no        0(D0)    2(D0)   3(D1)  
+13   2:W    HIT   none   no        0(D0)    2(D1)   3(D1)  
+14   1:R    FAULT 2      YES       0(D0)    1(D0)   3(D1)  
+15   2:R    FAULT 3      YES       0(D0)    1(D0)   2(D0)  
+16   0:R    HIT   none   no        0(D0)    1(D0)   2(D0)  
+17   1:W    HIT   none   no        0(D0)    1(D1)   2(D0)  
+18   7:R    FAULT 0      no        7(D0)    1(D1)   2(D0)  
+19   0:R    FAULT 1      YES       7(D0)    0(D0)   2(D0)  
+20   1:R    FAULT 2      no        7(D0)    0(D0)   1(D0)  
+
+policy=FIFO frames=3 references=20 hits=5 faults=15 initial_fills=3 evictions=12 dirty_writebacks=6 final_resident_dirty=0
+final_resident_dirty_pages=[] (not flushed, not counted as writebacks)
+total_time_us=210020 (= 20*1 + 15*10000 + 6*10000) avg_time_us=10501.000
+verification=PASS (hits+faults=N, writebacks<=evictions<=faults, no duplicate page, residency<=capacity checked after every step)

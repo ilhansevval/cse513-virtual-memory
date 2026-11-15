@@ -1,0 +1,20 @@
+\begin{table}[!tb]
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3.2pt}
+\caption{Test 1, dirty state (FIFO, 2 frames): hand-calculated and simulator trace}
+\label{tab:t1}
+\centering\footnotesize
+\begin{tabular}{r c c r c c c c}
+\toprule
+Step & Ref & H/F & Vic. & WB & F0 & F1 & Hand calc. \\
+\midrule
+1 & 1:R & F & -- & -- & 1 & -- & \checkmark \\
+2 & 1:W & H & -- & -- & 1$^{\ast}$ & -- & \checkmark \\
+3 & 1:R & H & -- & -- & 1$^{\ast}$ & -- & \checkmark \\
+4 & 2:R & F & -- & -- & 1$^{\ast}$ & 2 & \checkmark \\
+5 & 3:R & F & 1 & yes & 3 & 2 & \checkmark \\
+6 & 1:R & F & 2 & -- & 3 & 1 & \checkmark \\
+7 & 1:W & H & -- & -- & 3 & 1$^{\ast}$ & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,12 @@
+Policy=LRU frames=2 references=5
+step ref    hit?  victim writeback frames after access: page(Dirty)
+1    1:R    FAULT none   no        1(D0)    -      
+2    1:W    HIT   none   no        1(D1)    -      
+3    2:R    FAULT none   no        1(D1)    2(D0)  
+4    1:R    HIT   none   no        1(D1)    2(D0)  
+5    3:R    FAULT 2      no        1(D1)    3(D0)  
+
+policy=LRU frames=2 references=5 hits=2 faults=3 initial_fills=2 evictions=1 dirty_writebacks=0 final_resident_dirty=1
+final_resident_dirty_pages=[1] (not flushed, not counted as writebacks)
+total_time_us=30005 (= 5*1 + 3*10000 + 0*10000) avg_time_us=6001.000
+verification=PASS (hits+faults=N, writebacks<=evictions<=faults, no duplicate page, residency<=capacity checked after every step)

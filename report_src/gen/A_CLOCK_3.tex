@@ -1,0 +1,34 @@
+\begin{table}[!tb]
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3.2pt}
+\caption{CLOCK on Workload A, 3 frames: simulator trace (steps 1--8 also calculated by hand)}
+\label{tab:aclock}
+\centering\footnotesize
+\begin{tabular}{r c c r c c c c c c c}
+\toprule
+Step & Ref & H/F & Vic. & WB & F0 & F1 & F2 & R bits & Hand & Hand calc. \\
+\midrule
+1 & 7:R & F & -- & -- & 7 & -- & -- & 100 & F1 & \checkmark \\
+2 & 0:W & F & -- & -- & 7 & 0$^{\ast}$ & -- & 110 & F2 & \checkmark \\
+3 & 1:R & F & -- & -- & 7 & 0$^{\ast}$ & 1 & 111 & F0 & \checkmark \\
+4 & 2:W & F & 7 & -- & 2$^{\ast}$ & 0$^{\ast}$ & 1 & 100 & F1 & \checkmark \\
+5 & 0:R & H & -- & -- & 2$^{\ast}$ & 0$^{\ast}$ & 1 & 110 & F1 & \checkmark \\
+6 & 3:R & F & 1 & -- & 2$^{\ast}$ & 0$^{\ast}$ & 3 & 101 & F0 & \checkmark \\
+7 & 0:W & H & -- & -- & 2$^{\ast}$ & 0$^{\ast}$ & 3 & 111 & F0 & \checkmark \\
+8 & 4:R & F & 2 & yes & 4 & 0$^{\ast}$ & 3 & 100 & F1 & \checkmark \\
+\midrule
+9 & 2:R & F & 0 & yes & 4 & 2 & 3 & 110 & F2 &  \\
+10 & 3:W & H & -- & -- & 4 & 2 & 3$^{\ast}$ & 111 & F2 &  \\
+11 & 0:R & F & 3 & yes & 4 & 2 & 0 & 001 & F0 &  \\
+12 & 3:R & F & 4 & -- & 3 & 2 & 0 & 101 & F1 &  \\
+13 & 2:W & H & -- & -- & 3 & 2$^{\ast}$ & 0 & 111 & F1 &  \\
+14 & 1:R & F & 2 & yes & 3 & 1 & 0 & 010 & F2 &  \\
+15 & 2:R & F & 0 & -- & 3 & 1 & 2 & 011 & F0 &  \\
+16 & 0:R & F & 3 & -- & 0 & 1 & 2 & 111 & F1 &  \\
+17 & 1:W & H & -- & -- & 0 & 1$^{\ast}$ & 2 & 111 & F1 &  \\
+18 & 7:R & F & 1 & yes & 0 & 7 & 2 & 010 & F2 &  \\
+19 & 0:R & H & -- & -- & 0 & 7 & 2 & 110 & F2 &  \\
+20 & 1:R & F & 2 & -- & 0 & 7 & 1 & 111 & F0 &  \\
+\bottomrule
+\end{tabular}
+\end{table}
